@@ -6,9 +6,14 @@ use App\Like;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
+use Auth ;
+use Gate ;
 
 class PostController extends Controller
 {
+    if ( Gate :: denies ('update -post ', $post )) {
+return redirect ()-> back ();
+}
     public function getIndex()
     {
         $posts = Post::orderBy('created_at', 'desc')->paginate(2);
@@ -88,4 +93,5 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('admin.index')->with('info', 'Post deleted!');
     }
+
 }
